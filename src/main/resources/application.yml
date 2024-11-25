@@ -1,1 +1,15 @@
-spring.application.name=community_forum
+spring:
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
+  datasource:
+    url: jdbc:postgresql://localhost:5432/forum
+    username: devkiki
+    password: devkiki77
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
