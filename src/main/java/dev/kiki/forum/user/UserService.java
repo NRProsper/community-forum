@@ -1,7 +1,11 @@
 package dev.kiki.forum.user;
 
+import dev.kiki.forum.exception.ResourceNotFoundException;
 import dev.kiki.forum.user.dto.RegisterRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -32,4 +36,15 @@ public class UserService implements UserDetailsService {
         return userRepository.findByEmail(username)
                 .orElseThrow(() -> new RuntimeException("User not found"));
     }
+
+    public User getAuthenticatedUser() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if(!(auth instanceof AnonymousAuthenticationToken)) {
+            String userName = auth.getName();
+            return userRepository.findByEmail(userName).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        }else {
+            throw new RuntimeException("User not found");
+        }
+    }
+
 }
