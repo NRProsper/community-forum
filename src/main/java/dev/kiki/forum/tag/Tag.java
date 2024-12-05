@@ -2,10 +2,7 @@ package dev.kiki.forum.tag;
 
 import dev.kiki.forum.BaseEntity;
 import dev.kiki.forum.question.Question;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -22,7 +19,7 @@ public class Tag extends BaseEntity {
     @Column(nullable = false)
     private String description;
 
-    @ManyToMany(mappedBy = "tags")
+    @ManyToMany(mappedBy = "tags", fetch = FetchType.LAZY)
     private Set<Question> questions;
 
 }
